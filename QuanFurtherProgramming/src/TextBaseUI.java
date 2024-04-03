@@ -2,6 +2,9 @@
  * @author <Nguyen Minh Quan - s3975128>
  */
 
+import Claim.Claim;
+import Customer.Customers;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,7 +15,7 @@ import java.util.Scanner;
 public class TextBaseUI{
     private static final String CUSTOMERS_FILE = "customers.txt";
     private static final String INSURANCE_CARDS_FILE = "insuranceCard.txt";
-    private static final String CLAIMS_FILE = "claim.txt";
+    private static final String CLAIMS_FILE = "Data/claim.txt";
 
     private static List<Customers> customers;
     private static List<InsuranceCard> insuranceCards;
@@ -24,9 +27,9 @@ public class TextBaseUI{
         Scanner scanner = new Scanner(System.in);
         int choice;
         do {
-            System.out.println("=== Insurance Claim System ===");
+            System.out.println("=== Insurance Claim.Claim System ===");
             System.out.println("1. View All Claims");
-            System.out.println("2. Add a Claim");
+            System.out.println("2. Add a Claim.Claim");
             System.out.println("3. Exit");
             System.out.print("Enter your choice: ");
             choice = scanner.nextInt();
@@ -94,10 +97,10 @@ public class TextBaseUI{
         scanner.nextLine(); // Consume newline character
         System.out.println("Enter claim details:");
 
-        System.out.print("Claim ID: ");
+        System.out.print("Claim.Claim ID: ");
         String id = scanner.nextLine();
 
-        System.out.print("Claim Date (yyyy-MM-dd): ");
+        System.out.print("Claim.Claim Date (yyyy-MM-dd): ");
         String claimDateString = scanner.nextLine();
         Date claimDate = parseDate(claimDateString);
 
@@ -111,16 +114,16 @@ public class TextBaseUI{
         String examDateString = scanner.nextLine();
         Date examDate = parseDate(examDateString);
 
-        System.out.print("Claim Amount: ");
+        System.out.print("Claim.Claim Amount: ");
         double claimAmount = scanner.nextDouble();
 
         System.out.print("Status: ");
         String status = scanner.next();
 
         // Add the claim to the list
-        Claim claim = new Claim(id, claimDate, insuredPerson, cardNumber, examDate, new ArrayList<>(), claimAmount, status, null);
-        claims.add(claim);
-        System.out.println("Claim added successfully.");
+//        Claim claim = new Claim(id, claimDate, insuredPerson, cardNumber, examDate, new ArrayList<>(), claimAmount, status, null);
+//        claims.add(claim);
+        System.out.println("Claim.Claim added successfully.");
     }
 
     private static Date parseDate(String dateString) {
