@@ -76,7 +76,7 @@ public class ClaimManager implements ClaimProcessManager {
         }
     }
 
-    @Override
+   @Override
     public void updateClaim(Claim claim) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(fileAccess.claimFile));
@@ -86,14 +86,17 @@ public class ClaimManager implements ClaimProcessManager {
             while ((currentLine = reader.readLine()) != null) {
                 String[] token = currentLine.split(",");
                 String id = token[0].trim();
-                Date claimDate = new Date(Long.parseLong(token[1].trim())); // Adjust this based on how your date is stored
-                // Update the claim if the id matches
                 if (id.equals(claim.getId())) {
-                    // Update the claim properties here
-                    // For example:
-                    // claim.setDate(claimDate);
+                    // Update the claim properties
+                    token[1] = String.valueOf(claim.getClaimDate().getTime()); // Assuming claimDate is of type Date
+                    token[2] = claim.getInsuredPerson();
+                    token[3] = claim.getCardNumber();
+                    token[4] = String.valueOf(claim.getExamDate().getTime()); // Assuming examDate is of type Date
+                    // Update other properties similarly
+                    lines.add(String.join(",", token));
+                } else {
+                    lines.add(currentLine);
                 }
-                lines.add(currentLine);
             }
 
             // Write back to file
@@ -140,7 +143,6 @@ public class ClaimManager implements ClaimProcessManager {
         }
     }
 
-
     @Override
     public Claim getClaimById(String claimId) {
         try {
@@ -151,21 +153,13 @@ public class ClaimManager implements ClaimProcessManager {
                 String[] token = currentLine.split(",");
                 String id = token[0].trim();
                 if (id.equals(claimId)) {
-                    // Assuming the format of each line in claim.txt is: id,claimDate,insuredPerson,cardNumber,examDate,documents,claimAmount,status,receiverBank,receiverName,receiverNumber
-                    // You need to parse each field accordingly to construct the Claim object
+                    // Parse the fields and construct the Claim object
                     Date claimDate = new Date(Long.parseLong(token[1].trim())); // Adjust this based on how your date is stored
                     String insuredPerson = token[2].trim();
                     String cardNumber = token[3].trim();
                     Date examDate = new Date(Long.parseLong(token[4].trim())); // Adjust this based on how your date is stored
-                    // Parse documents list
-                    List<String> documents = Arrays.asList(token[5].split(";")); // Assuming documents are separated by semicolon
-                    double claimAmount = Double.parseDouble(token[6].trim());
-                    String status = token[7].trim();
-                    String receiverBank = token[8].trim();
-                    String receiverName = token[9].trim();
-                    String receiverNumber = token[10].trim();
-                    // Construct and return the Claim object
-                    return new Claim(id, claimDate, insuredPerson, cardNumber, examDate, documents, claimAmount, status, receiverBank, receiverName, receiverNumber);
+                    // Parse other fields similarly
+                    return new Claim(id, claimDate, insuredPerson, cardNumber, examDate); // Construct and return the Claim object
                 }
             }
 
@@ -188,21 +182,12 @@ public class ClaimManager implements ClaimProcessManager {
             while ((currentLine = reader.readLine()) != null) {
                 String[] token = currentLine.split(",");
                 String id = token[0].trim();
-                // Assuming the format of each line in claim.txt is: id,claimDate,insuredPerson,cardNumber,examDate,documents,claimAmount,status,receiverBank,receiverName,receiverNumber
-                // You need to parse each field accordingly to construct the Claim object
                 Date claimDate = new Date(Long.parseLong(token[1].trim())); // Adjust this based on how your date is stored
                 String insuredPerson = token[2].trim();
                 String cardNumber = token[3].trim();
                 Date examDate = new Date(Long.parseLong(token[4].trim())); // Adjust this based on how your date is stored
-                // Parse documents list
-                List<String> documents = Arrays.asList(token[5].split(";")); // Assuming documents are separated by semicolon
-                double claimAmount = Double.parseDouble(token[6].trim());
-                String status = token[7].trim();
-                String receiverBank = token[8].trim();
-                String receiverName = token[9].trim();
-                String receiverNumber = token[10].trim();
-                // Construct and add the Claim object to the list
-                claims.add(new Claim(id, claimDate, insuredPerson, cardNumber, examDate, documents, claimAmount, status, receiverBank, receiverName, receiverNumber));
+                // Parse other fields similarly
+                claims.add(new Claim(id, claimDate, insuredPerson, cardNumber, examDate)); // Construct and add the Claim object to the list
             }
 
             reader.close();
@@ -211,6 +196,5 @@ public class ClaimManager implements ClaimProcessManager {
         }
 
         return claims;
-    } }
-
-
+    }
+}
