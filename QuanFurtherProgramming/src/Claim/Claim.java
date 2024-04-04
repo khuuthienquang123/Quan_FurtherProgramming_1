@@ -12,25 +12,31 @@ public class Claim {
     private Date claimDate;
     private String insuredPerson;
     private String cardNumber;
+
+    private Date examDate;
     private List<String> documents;
-    private BigDecimal claimAmount;
+    private double claimAmount;
     private String status;
     private String receiverBank;
     private String receiverName;
     private String receiverNumber;
 
-    public Claim(String id, Date claimDate, String insuredPerson, String cardNumber, List<String> documents, BigDecimal claimAmount, String status,
+    private List<Claim> claimList = new ArrayList<Claim>();
+
+    public Claim(String id, Date claimDate, String insuredPerson, String cardNumber, Date examDate, List<String> documents, double claimAmount, String status,
                  String receiverBank, String receiverName, String receiverNumber) {
         this.id = id;
         this.claimDate = claimDate;
         this.insuredPerson = insuredPerson;
         this.cardNumber = cardNumber;
+        this.examDate = examDate;
         this.documents = new ArrayList<>(documents);
         this.claimAmount = claimAmount;
         this.status = status;
         this.receiverBank = receiverBank;
         this.receiverName = receiverName;
         this.receiverNumber = receiverNumber;
+        this.claimList = null;
     }
 
 
@@ -66,6 +72,14 @@ public class Claim {
         this.cardNumber = cardNumber;
     }
 
+    public Date getExamDate() {
+        return examDate;
+    }
+
+    public void setExamDate(Date examDate) {
+        this.examDate = examDate;
+    }
+
     public List<String> getDocuments() {
         return documents;
     }
@@ -74,11 +88,11 @@ public class Claim {
         this.documents = documents;
     }
 
-    public BigDecimal getClaimAmount() {
+    public double getClaimAmount() {
         return claimAmount;
     }
 
-    public void setClaimAmount(BigDecimal claimAmount) {
+    public void setClaimAmount(double claimAmount) {
         this.claimAmount = claimAmount;
     }
 
@@ -112,6 +126,14 @@ public class Claim {
 
     public void setReceiverNumber(String receiverNumber) {
         this.receiverNumber = receiverNumber;
+    }
+
+    public List<Claim> getClaimList() {
+        return claimList;
+    }
+
+    public void setClaimList(List<Claim> claimList) {
+        this.claimList = claimList;
     }
 
     @Override

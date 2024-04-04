@@ -1,13 +1,14 @@
-package Claim;
+package Interface;
 
 import Claim.Claim;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface ClaimProcessManager  {
 
     // Add a claim to the manager
-    void addClaim(Claim claim);
+    void addClaim(Claim claim) throws IOException;
 
     // Update an existing claim in the manager
     void updateClaim(Claim claim);
