@@ -3,10 +3,9 @@ package Interface;
 import Claim.Claim;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Scanner;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class ClaimManager implements ClaimProcessManager{
     FileAccess fileAccess = new FileAccess();
@@ -26,7 +25,7 @@ public class ClaimManager implements ClaimProcessManager{
         System.out.println("Enter card number:");
         String cardNumber = scanner.nextLine();
 
-        System.out.println("Enter exam date (yyyy-MM-dd):");
+        System.out.println("Enter exam date (dd-MM-yyyy):");
         Date examDate = new Date(scanner.nextLine());
 
         System.out.println("Enter claim amount:");
@@ -57,8 +56,8 @@ public class ClaimManager implements ClaimProcessManager{
             documents.add(documentName);
         }
 
-        TextBaseUI textBaseUI = new TextBaseUI();
-        textBaseUI.addClaim(id, claimDate, insuredPerson, cardNumber, examDate, documents, claimAmount, status, receiverBank, receiverName, receiverNumber);
+        FileModifier fileModifier = new FileModifier();
+        fileModifier.addClaim(id, claimDate, insuredPerson, cardNumber, examDate, documents, claimAmount, status, receiverBank, receiverName, receiverNumber);
 
     }
 
@@ -74,12 +73,12 @@ public class ClaimManager implements ClaimProcessManager{
         }
 
         if(id == null){
-            return "f" + "000000000001";
+            return "F" + "000000000001";
         }else {
             String numberString = id.substring(1);
             int afterIdScan = Integer.parseInt(numberString);
 
-            return String.format("C%010d", 1 + afterIdScan);
+            return String.format("F%010d", 1 + afterIdScan);
         }
     }
     @Override
@@ -87,18 +86,66 @@ public class ClaimManager implements ClaimProcessManager{
         BufferedReader reader;
         BufferedWriter writer;
 
+        String id, insuredPerson, cardNumber;
         try {
             reader = new BufferedReader(new FileReader(fileAccess.claimFile));
-            writer = new BufferedWriter(new FileWriter(fileAccess.claimFile));
+            writer = new BufferedWriter(new FileWriter("QuanFurtherProgramming/src/Data/temp.txt"));
 
             String currentLine;
 
+            System.out.println("Please enter the ID of the claim you want to update: ");
+            Scanner scanner = new Scanner(System.in);
+            String idCheck = scanner.next();
+
             while((currentLine = reader.readLine()) != null){
                 String[] token = currentLine.split(",");
-                String id = token[0].trim();
-                Date claimDate = ;
 
+                id = token[0].trim();
+                String date = token[1].trim();
+                insuredPerson = token[2].trim();
+                cardNumber = token[3].trim();
+                String examDateString = token[4].trim();
+                List<String> documents = new ArrayList<>();
+                for (int i = 5; i < token.length - 6; i++) {
+                    documents.add(token[i].trim());
+                }
+
+                // Parsing claim amount
+                double claimAmount = Double.parseDouble(token[token.length - 6].trim());
+
+                // Parsing status
+                String status = token[token.length - 5].trim();
+
+                // Parsing receiver bank
+                String receiverBank = token[token.length - 4].trim();
+
+                // Parsing receiver name
+                String receiverName = token[token.length - 3].trim();
+
+                // Parsing receiver number
+                String receiverNumber = token[token.length - 2].trim();
+
+
+                if(idCheck.equals(id)){
+                    System.out.println("--UPDATE CLAIM INFORMATION--");
+
+                    System.out.println("Enter new claim's insured person: ");
+                    String newInsuredPerson = scanner.next();
+
+                    System.out.println("Enter new claim's card number: '");
+                    String newCardNumber = scanner.next();
+
+                    String insuredPersonReplace = insuredPerson.replace(insuredPerson, newInsuredPerson);
+                    String newCardNumberReplace = cardNumber.replace(cardNumber, newCardNumber);
+
+                    writer.write(id + "," + date + "," + insuredPerson + "," + cardNumber + "," + examDateString + ",");
+                    for (String document : documents) {
+                        writer.write(document + ";");
+                    }
+                    writer.write("," + claimAmount + "," + status + "," + receiverBank + "," + receiverName + "," + receiverNumber);
+                }
             }
+
         } catch (IOException e) {
              e.printStackTrace();
         }
@@ -119,4 +166,7 @@ public class ClaimManager implements ClaimProcessManager{
         return null;
     }
 
+    public static void main(String[] args) throws IOException, ParseException {
+
+    }
 }
