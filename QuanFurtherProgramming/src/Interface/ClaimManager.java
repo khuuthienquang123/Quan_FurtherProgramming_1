@@ -88,8 +88,11 @@ public class ClaimManager implements ClaimProcessManager{
 
         String id, insuredPerson, cardNumber;
         try {
+            File inputFile = new File(fileAccess.claimFile);
+            File tempFile = new File("QuanFurtherProgramming/src/Data/temp.txt");
+
             reader = new BufferedReader(new FileReader(fileAccess.claimFile));
-            writer = new BufferedWriter(new FileWriter("QuanFurtherProgramming/src/Data/temp.txt"));
+            writer = new BufferedWriter(new FileWriter(tempFile));
 
             String currentLine;
 
@@ -138,12 +141,21 @@ public class ClaimManager implements ClaimProcessManager{
                     String insuredPersonReplace = insuredPerson.replace(insuredPerson, newInsuredPerson);
                     String newCardNumberReplace = cardNumber.replace(cardNumber, newCardNumber);
 
-                    writer.write(id + "," + date + "," + insuredPerson + "," + cardNumber + "," + examDateString + ",");
+                    writer.write(id + "," + date + "," + insuredPersonReplace + "," + newCardNumberReplace + "," + examDateString + ",");
                     for (String document : documents) {
                         writer.write(document + ";");
                     }
                     writer.write("," + claimAmount + "," + status + "," + receiverBank + "," + receiverName + "," + receiverNumber);
+                }else{
+                    writer.write(currentLine + System.getProperty("line.separator"));
                 }
+            }
+
+            writer.close();
+            reader.close();
+
+            if(inputFile.delete()){
+                tempFile.renameTo(inputFile);
             }
 
         } catch (IOException e) {
