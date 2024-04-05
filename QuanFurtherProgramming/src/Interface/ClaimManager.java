@@ -162,6 +162,58 @@ public class ClaimManager implements ClaimProcessManager{
              e.printStackTrace();
         }
     }
+    List<Claim> claimList = new ArrayList<Claim>();
+    public void getClaimList(){
+        String fileName = fileAccess.claimFile;
+
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(fileName));
+
+            String currentLine;
+
+            if((currentLine = reader.readLine()) != null){
+                String[] token = currentLine.split(",");
+
+                String id = token[0].trim();
+
+                String claimDateStr = token[1].trim();
+                SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd");
+                Date claimDate = formatter1.parse(claimDateStr);
+
+                String insuredPerson = token[2].trim();
+                String cardNumber = token[3].trim();
+
+                String examDateStr = token[4].trim();
+                Date examDate  = formatter1.parse(examDateStr);
+
+                List<String> documents = new ArrayList<>();
+                for (int i = 5; i < token.length - 6; i++) {
+                    documents.add(token[i].trim());
+                }
+
+                // Parsing claim amount
+                double claimAmount = Double.parseDouble(token[token.length - 6].trim());
+
+                // Parsing status
+                String status = token[token.length - 5].trim();
+
+                // Parsing receiver bank
+                String receiverBank = token[token.length - 4].trim();
+
+                // Parsing receiver name
+                String receiverName = token[token.length - 3].trim();
+
+                // Parsing receiver number
+                String receiverNumber = token[token.length - 2].trim();
+                claimList.add(new Claim(id, claimDate, insuredPerson, cardNumber, examDate, documents, claimAmount, status, receiverBank, receiverName, receiverNumber));
+            }
+
+        }catch (IOException e){
+            e.printStackTrace();
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 
     @Override
@@ -181,12 +233,30 @@ public class ClaimManager implements ClaimProcessManager{
             BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
 
             String currentLine;
+            String lineToRemove = null;
+
+            for(Claim check : claimList){
+                if(check.getId().equals(IDRemove)){
+                    lineToRemove = check.getId() + "," +
+                            check.getClaimDate() + "," +
+                            check.getInsuredPerson() + "," +
+                            check.getCardNumber() + "," +
+                            check.getExamDate() + "," +
+                            String.join(",", check.getDocuments()) + "," +
+                            check.getClaimAmount() + "," +
+                            check.getStatus() + "," +
+                            check.getReceiverBank() + "," +
+                            check.getReceiverName() + "," +
+                            check.getReceiverNumber();
+                }
+            }
+
 
             while ((currentLine = reader.readLine()) != null){
                 // Check if the current line matches the line to delete
-//                if(currentLine.equals(lineToRemove)){
-//                    continue;
-//                }
+                if (currentLine.equals(lineToRemove)){
+                    continue;
+                }
 
                 writer.write(currentLine + System.getProperty("line.separator"));
             }
@@ -199,8 +269,6 @@ public class ClaimManager implements ClaimProcessManager{
         }catch (IOException e){
             e.printStackTrace();
         }
-
-
     }
 
     @Override
