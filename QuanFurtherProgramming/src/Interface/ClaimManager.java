@@ -163,8 +163,43 @@ public class ClaimManager implements ClaimProcessManager{
         }
     }
 
+
     @Override
-    public void deleteClaim(String claimId) {
+    public void deleteClaim() {
+        //Delete claim in the txt file
+        String fileName = fileAccess.claimFile;
+
+        System.out.println("Enter the ID of the claim you want to delete: ");
+        Scanner scanner = new Scanner(System.in);
+        String IDRemove = scanner.next();
+
+        try{
+            File inputFile = new File(fileName);
+            File tempFile = new File("QuanFurtherProgramming/src/Data/temp1.txt");
+
+            BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+
+            String currentLine;
+
+            while ((currentLine = reader.readLine()) != null){
+                // Check if the current line matches the line to delete
+//                if(currentLine.equals(lineToRemove)){
+//                    continue;
+//                }
+
+                writer.write(currentLine + System.getProperty("line.separator"));
+            }
+            writer.close();
+            reader.close();
+
+            if(inputFile.delete()){
+                tempFile.renameTo(inputFile);
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
 
     }
 

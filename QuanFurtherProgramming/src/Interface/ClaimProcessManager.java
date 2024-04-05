@@ -14,7 +14,7 @@ public interface ClaimProcessManager  {
     void updateClaim(Claim claim);
 
     // Delete a claim from the manager
-    void deleteClaim(String claimId);
+    void deleteClaim();
 
     // Get a single claim from the manager by its ID
     Claim getClaimById(String claimId);
