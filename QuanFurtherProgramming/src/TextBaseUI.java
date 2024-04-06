@@ -1,3 +1,5 @@
+import Interface.ClaimManager;
+
 import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -42,7 +44,7 @@ public class TextBaseUI {
                         break;
                     case 5:
                         System.out.println("-- GETTING CLAIM --");
-                        System.out.println("- Please enter the claim ID you want to get: ");
+                        System.out.print("- Please enter the claim ID you want to get: ");
                         String idClaim = scanner.next();
                         system.getClaimById(idClaim);
                         break;
@@ -61,7 +63,6 @@ public class TextBaseUI {
             }
         } while (choice != 6);
         scanner.close(); // Close the scanner
-        system.saveData(); // Save data before exiting
     }
 
     public static void main(String[] args) {

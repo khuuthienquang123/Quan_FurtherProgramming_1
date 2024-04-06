@@ -123,7 +123,7 @@ public class FileModifier {
 
             String currentLine;
 
-            if ((currentLine = reader.readLine()) != null) {
+            while ((currentLine = reader.readLine()) != null) {
                 String[] token = currentLine.split(",");
 
                 String id = token[0].trim();
@@ -159,6 +159,7 @@ public class FileModifier {
                 String receiverNumber = token[token.length - 2].trim();
                 claimList.add(new Claim(id, claimDate, insuredPerson, cardNumber, examDate, documents, claimAmount, status, receiverBank, receiverName, receiverNumber));
             }
+            reader.close();
 
         } catch (IOException e) {
             e.printStackTrace();
