@@ -168,14 +168,11 @@ public class FileModifier {
         }
     }
 
+
     public void deleteClaim(String id){
         //Delete claim in the txt file
         String fileName = fileAccess.claimFile;
-
-        System.out.println("Enter the ID of the claim you want to delete: ");
-        Scanner scanner = new Scanner(System.in);
-        String IDRemove = scanner.next();
-
+        getClaimList();
         try{
             File inputFile = new File(fileName);
             File tempFile = new File("QuanFurtherProgramming/src/Data/temp1.txt");
@@ -187,25 +184,21 @@ public class FileModifier {
             String lineToRemove = null;
 
             for(Claim check : claimList){
-                if(check.getId().equals(IDRemove)){
-                    lineToRemove = check.getId() + "," +
-                            check.getClaimDate() + "," +
-                            check.getInsuredPerson() + "," +
-                            check.getCardNumber() + "," +
-                            check.getExamDate() + "," +
-                            String.join(",", check.getDocuments()) + "," +
-                            check.getClaimAmount() + "," +
-                            check.getStatus() + "," +
-                            check.getReceiverBank() + "," +
-                            check.getReceiverName() + "," +
-                            check.getReceiverNumber();
+                if(check.getId().equals(id)){
+                    lineToRemove = check.getId();
+
+                    System.out.println(lineToRemove);
                 }
             }
 
 
             while ((currentLine = reader.readLine()) != null){
+                String[] token = currentLine.split(",");
+
+                String idDelete = token[0].trim();
+
                 // Check if the current line matches the line to delete
-                if (currentLine.equals(lineToRemove)){
+                if (idDelete.equals(lineToRemove)){
                     continue;
                 }
 
@@ -220,6 +213,7 @@ public class FileModifier {
         }catch (IOException e){
             e.printStackTrace();
         }
+        System.out.println("Successfully deleted");
     }
 
     public void getClaimById(String id){

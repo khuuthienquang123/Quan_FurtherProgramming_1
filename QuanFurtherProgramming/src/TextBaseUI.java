@@ -32,13 +32,13 @@ public class TextBaseUI {
                         break;
                     case 3:
                         System.out.println("-- DELETING CLAIM --");
-                        System.out.println("- Please enter the ID you want to delete: ");
+                        System.out.print("- Please enter the ID you want to delete: ");
                         String idDelete = scanner.next();
                         system.deleteClaim(idDelete);
                         break;
                     case 4:
                         System.out.println("-- UPDATING CLAIM --");
-                        System.out.println("- Please enter the ID you want to update: ");
+                        System.out.print("- Please enter the ID you want to update: ");
                         String idUpdate = scanner.next();
                         system.updateClaim(idUpdate);
                         break;
