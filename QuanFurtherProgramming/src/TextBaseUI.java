@@ -60,7 +60,8 @@ public class TextBaseUI {
                 System.out.println("An error occurred: " + e.getMessage());
             }
         } while (choice != 6);
-        scanner.close();
+        scanner.close(); // Close the scanner
+        system.saveData(); // Save data before exiting
     }
 
     public static void main(String[] args) {
@@ -68,3 +69,4 @@ public class TextBaseUI {
         ui.run();
     }
 }
+
