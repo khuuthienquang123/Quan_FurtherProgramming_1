@@ -8,7 +8,7 @@ import java.util.List;
 public interface ClaimProcessManager  {
 
     // Add a claim to the manager
-    void addClaim(String Id) throws IOException;
+    void addClaim() throws IOException;
 
     // Update an existing claim in the manager
     void updateClaim(String Id);

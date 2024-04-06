@@ -12,7 +12,6 @@ public class Claim {
     private Date claimDate;
     private String insuredPerson;
     private String cardNumber;
-
     private Date examDate;
     private List<String> documents;
     private double claimAmount;

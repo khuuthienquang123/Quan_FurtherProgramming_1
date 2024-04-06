@@ -3,8 +3,6 @@ package Interface;
 import Claim.Claim;
 
 import java.io.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class ClaimManager implements ClaimProcessManager{
@@ -12,7 +10,7 @@ public class ClaimManager implements ClaimProcessManager{
     FileModifier fileModifier = new FileModifier();
 
     @Override
-    public void addClaim(String Id) throws IOException {
+    public void addClaim() throws IOException {
         Scanner scanner = new Scanner(System.in);
 
         String id = generateId();
