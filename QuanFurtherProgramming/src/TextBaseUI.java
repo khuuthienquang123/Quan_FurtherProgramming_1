@@ -66,6 +66,7 @@ public class TextBaseUI {
     }
 
     public static void main(String[] args) {
+        //check
         TextBaseUI ui = new TextBaseUI();
         ui.run();
     }
