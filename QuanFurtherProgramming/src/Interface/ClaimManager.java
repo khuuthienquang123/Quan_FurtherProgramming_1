@@ -12,7 +12,7 @@ public class ClaimManager implements ClaimProcessManager{
     FileModifier fileModifier = new FileModifier();
 
     @Override
-    public void addClaim(Claim claim) throws IOException {
+    public void addClaim(String Id) throws IOException {
         Scanner scanner = new Scanner(System.in);
 
         String id = generateId();
@@ -59,7 +59,6 @@ public class ClaimManager implements ClaimProcessManager{
         }
 
         fileModifier.addClaim(id, claimDate, insuredPerson, cardNumber, examDate, documents, claimAmount, status, receiverBank, receiverName, receiverNumber);
-
     }
 
 
@@ -82,27 +81,26 @@ public class ClaimManager implements ClaimProcessManager{
             return String.format("F%010d", 1 + afterIdScan);
         }
     }
-    @Override
-    public void updateClaim(Claim claim) {
-        fileModifier.updateClaim();
-    }
 
     @Override
-    public void deleteClaim() {
-        fileModifier.deleteClaim();
+    public void updateClaim(String id ) {
+        fileModifier.updateClaim(id);
     }
 
     @Override
-    public Claim getClaimById(String claimId) {
-        return null;
+    public void deleteClaim(String id) {
+        fileModifier.deleteClaim(id);
     }
 
     @Override
-    public List<Claim> getAllClaims() {
-        return null;
+    public void getClaimById(String claimId) {
+        fileModifier.getClaimById(claimId);
     }
 
-    public static void main(String[] args) throws IOException, ParseException {
-
+    @Override
+    public void getAllClaims() {
+        fileModifier.getAllClaims();
     }
+
+
 }

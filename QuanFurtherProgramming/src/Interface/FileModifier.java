@@ -35,11 +35,13 @@ public class FileModifier {
         }
     }
 
-    public void updateClaim(){
+    public void updateClaim(String idCheck){
         BufferedReader reader;
         BufferedWriter writer;
 
-        String id, insuredPerson, cardNumber;
+        Scanner scanner = new Scanner(System.in);
+
+        String insuredPerson, cardNumber;
         try {
             File inputFile = new File(fileAccess.claimFile);
             File tempFile = new File("QuanFurtherProgramming/src/Data/temp.txt");
@@ -49,14 +51,10 @@ public class FileModifier {
 
             String currentLine;
 
-            System.out.println("Please enter the ID of the claim you want to update: ");
-            Scanner scanner = new Scanner(System.in);
-            String idCheck = scanner.next();
-
             while((currentLine = reader.readLine()) != null){
                 String[] token = currentLine.split(",");
 
-                id = token[0].trim();
+                String id = token[0].trim();
                 String date = token[1].trim();
                 insuredPerson = token[2].trim();
                 cardNumber = token[3].trim();
@@ -169,7 +167,7 @@ public class FileModifier {
         }
     }
 
-    public void deleteClaim(){
+    public void deleteClaim(String id){
         //Delete claim in the txt file
         String fileName = fileAccess.claimFile;
 
@@ -220,6 +218,25 @@ public class FileModifier {
             }
         }catch (IOException e){
             e.printStackTrace();
+        }
+    }
+
+    public void getClaimById(String id){
+        getClaimList();
+
+        for(Claim claim : claimList){
+            if(claim.getId().equals(id)){
+                System.out.println(claim);
+            }
+        }
+    }
+
+    public void getAllClaims(){
+        getClaimList();
+
+        for(Claim claim : claimList){
+            System.out.println(claim);
+            System.out.println("--------------------------------");
         }
     }
 }

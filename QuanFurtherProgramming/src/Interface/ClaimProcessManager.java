@@ -8,17 +8,17 @@ import java.util.List;
 public interface ClaimProcessManager  {
 
     // Add a claim to the manager
-    void addClaim(Claim claim) throws IOException;
+    void addClaim(String Id) throws IOException;
 
     // Update an existing claim in the manager
-    void updateClaim(Claim claim);
+    void updateClaim(String Id);
 
     // Delete a claim from the manager
-    void deleteClaim();
+    void deleteClaim(String Id);
 
     // Get a single claim from the manager by its ID
-    Claim getClaimById(String claimId);
+    void getClaimById(String claimId);
 
     // Get all claims managed by the manager
-    List<Claim> getAllClaims();
+    void getAllClaims();
 }
